@@ -1,13 +1,13 @@
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 
-export const SheetComponent =   () =>{
+const App = () => {
   // ref
-  const bottomSheetRef = useRef<BottomSheet>(null);
+  const bottomSheetRef = useRef<BottomSheet | null>(null);
 
   // callbacks
-  const handleSheetChanges = useCallback((index) => {
+  const handleSheetChanges = useCallback((index: number) => {
     console.log('handleSheetChanges', index);
   }, []);
 
@@ -15,7 +15,8 @@ export const SheetComponent =   () =>{
   return (
     <View style={styles.container}>
       <BottomSheet
-        ref={bottomSheetRef}
+        ref={bottomSheetRef} // Correct ref usage
+      
         onChange={handleSheetChanges}
       >
         <BottomSheetView style={styles.contentContainer}>
@@ -35,6 +36,8 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'center', // Center the content
   },
 });
 
+export default App;
