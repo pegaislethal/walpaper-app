@@ -2,7 +2,7 @@ import { Slot } from "expo-router";
 import { View,Text } from "react-native";
 
 
-export default function NoTabLayout(){
+export default function RootLayout(){
     return(
         <View>
             <View style={{backgroundColor:"black"}}>
