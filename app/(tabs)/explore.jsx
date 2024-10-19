@@ -1,22 +1,24 @@
 import { useState } from "react";
-import { Button, Text } from "react-native";
+import { Button, Text, View } from "react-native"; 
 import { SafeAreaView } from "react-native-safe-area-context";
+import DownloadPicture from "../../components/BottomSheet.Component"; // Ensure this is the correct path to your component
 
-import { View } from "react-native-web";
-import App from "../../components/BottomSheet.Component";
-export default function explore() {
-  const [pictureOpen, setpictureOpen] = useState(false);
+export default function Explore() {  
+  const [pictureOpen, setPictureOpen] = useState(false);
+
   return (
-    <SafeAreaView>
-      <View>
-        <Text>Explore page</Text>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
+        <Text>Explore Page</Text>
         <Button
           title="Open Bottom Sheet"
           onPress={() => {
-            setpictureOpen(true);
+            setPictureOpen(true); 
           }}
-        ></Button>
-        {pictureOpen && < App/>}
+        />
+        {pictureOpen && (
+          <DownloadPicture onClose={() => setPictureOpen(false)} /> // Close the sheet when onClose is triggered
+        )}
       </View>
     </SafeAreaView>
   );
