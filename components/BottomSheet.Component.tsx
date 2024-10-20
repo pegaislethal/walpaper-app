@@ -9,7 +9,7 @@ export default function DownloadPicture({ onClose }: { onClose: () => void }) {
   // callbacks
   const handleSheetChanges = useCallback(
     (index: number) => {
-      console.log("handleSheetChanges", index);
+      // console.log("handleSheetChanges", index);
       if (index === -1) {
         onClose(); // Invoke onClose when the bottom sheet is closed
       }
@@ -26,6 +26,7 @@ export default function DownloadPicture({ onClose }: { onClose: () => void }) {
         enablePanDownToClose={true}
         onChange={handleSheetChanges}
         onClose={onClose} // Call onClose when BottomSheet closes
+        handleIndicatorStyle={{height:0}}
       >
         <BottomSheetView style={styles.contentContainer}>
           <Text>Awesome 🎉</Text>
