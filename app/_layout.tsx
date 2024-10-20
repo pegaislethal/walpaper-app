@@ -6,7 +6,7 @@ export default function Layout() {
       <Stack screenOptions={{
         headerShown:false
       }}>
-        <Stack.Screen name="(nobottombar)/accountinfo" options={{headerShown:true,headerTitle:"AccountInfo",headerBackTitle:"Go back", headerTitleAlign:"center" }}/>
+        <Stack.Screen name="(nobottombar)/accountinfo" options={{headerShown:true,headerTitle:"AccountInfo",headerBackTitle:"Go back", headerTitleAlign:"center"  }}/>
         </Stack>
     </GestureHandlerRootView>
   );
