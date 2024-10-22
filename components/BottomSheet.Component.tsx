@@ -21,7 +21,7 @@ export default function DownloadPicture({ onClose }: { onClose: () => void }) {
   return (
     <View style={styles.container}>
       <BottomSheet
-        snapPoints={["99%"]}
+        snapPoints={["100%"]}
         ref={bottomSheetRef}
         enablePanDownToClose={true}
         onChange={handleSheetChanges}

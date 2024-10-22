@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Button, View, Image, Text, StyleSheet } from "react-native";
+import { Button, Image, Text, StyleSheet, View } from "react-native";
+import { ThemedView } from "@/components/ThemedView"; // Ensure this is the correct path to your ThemedView component
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DownloadPicture from "../../components/BottomSheet.Component"; // Ensure this is the correct path to your component
@@ -20,6 +21,10 @@ export default function Explore() {
             setPictureOpen(true);
           }}
         />
+         {pictureOpen && (
+          <DownloadPicture onClose={() => setPictureOpen(false)} /> // Close the sheet when onClose is triggered
+        )}
+
         <ParallaxScrollView
           headerBackgroundColor={{ dark: "black", light: "white" }}
           headerImage={
@@ -31,29 +36,24 @@ export default function Explore() {
             />
           }
         >
-          
-          <View style={styles.container}>
-            <View style={styles.innercontainer}>
-            <FlatList 
-          data={wallpapers}
-          renderItem={({item})=><Card wallpaper={item} />}
-          keyExtractor={item=>item.name}>
-            
-          </FlatList>
-            </View>
-            <View style={styles.innercontainer}>
-            <FlatList 
-          data={wallpapers}
-          renderItem={({item})=><Card wallpaper={item} />}
-          keyExtractor={item=>item.name}>
-            
-          </FlatList>
-            </View>
-          </View>
+          <ThemedView style={styles.container}>
+            <ThemedView style={styles.innercontainer}>
+              <FlatList
+                data={wallpapers.filter((_,index)=>index%2===0)}
+                renderItem={({ item }) =><View style={styles.imageContainer}><Card wallpaper={item} /></View>}
+                keyExtractor={(item) => item.name}
+              />
+            </ThemedView>
+            <ThemedView style={styles.innercontainer}>
+            <FlatList
+                data={wallpapers.filter((_,index)=>index%2===1)}
+                renderItem={({ item }) =><View style={styles.imageContainer}><Card wallpaper={item} /></View>}
+                keyExtractor={(item) => item.name}
+              />
+            </ThemedView>
+          </ThemedView>
         </ParallaxScrollView>
-        {pictureOpen && (
-          <DownloadPicture onClose={() => setPictureOpen(false)} /> // Close the sheet when onClose is triggered
-        )}
+       
       </View>
     </SafeAreaView>
   );
@@ -61,13 +61,16 @@ export default function Explore() {
 
 const styles = StyleSheet.create({
   container: {
-    display:"flex",
-    flexDirection:"row",
-    flex:1,
-    
+    display: "flex",
+    flexDirection: "row",
+    flex: 1,
+    backgroundColor:"red"
   },
-  innercontainer:{
+  innercontainer: {
     flex: 0.5,
-    padding:12
+    padding: 4,
+  },
+  imageContainer:{
+    paddingVertical:10
   }
 });

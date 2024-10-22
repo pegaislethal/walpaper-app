@@ -17,6 +17,16 @@ export function useWallpapers(){
             url:"https://images.unsplash.com/photo-1638895086783-992727960f27?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHVuc3BhbHNofGVufDB8fDB8fHww",
             name:"Wallpaper 2",
             
+        },
+        {
+            url:"https://images.unsplash.com/photo-1729180253343-12fdbd236c81?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxN3x8fGVufDB8fHx8fA%3D%3D",
+            name:"Wallpaper 3",
+            
+        },
+        {
+            url:"https://images.unsplash.com/photo-1729008920276-e9e61d13c2db?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw0N3x8fGVufDB8fHx8fA%3D%3D",
+            name:"Wallpaper 4",
+            
         }
 
     ]
