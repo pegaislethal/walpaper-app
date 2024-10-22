@@ -1,12 +1,18 @@
 import React, { useCallback, useRef } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Button } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import { useWallpapers } from "@/hooks/useWallpaper";
+import { useWallpapers, Wallpapers } from "@/hooks/useWallpaper";
 
-export default function DownloadPicture({ onClose }: { onClose: () => void }) {
+export default function DownloadPicture({
+  onClose,
+  wallpaper,
+}: {
+  onClose: () => void;
+  wallpaper: Wallpapers;
+}) {
   // ref
   const bottomSheetRef = useRef<BottomSheet | null>(null);
-  const wallpaper = useWallpapers();
+  const wallpapers = useWallpapers();
   // callbacks
   const handleSheetChanges = useCallback(
     (index: number) => {
@@ -20,20 +26,24 @@ export default function DownloadPicture({ onClose }: { onClose: () => void }) {
 
   // renders
   return (
-    <View style={styles.container}>
-      <BottomSheet
-        snapPoints={["100%"]}
-        ref={bottomSheetRef}
-        enablePanDownToClose={true}
-        onChange={handleSheetChanges}
-        onClose={onClose} // Call onClose when BottomSheet closes
-        handleIndicatorStyle={{height:0}}
-      >
-        <BottomSheetView style={styles.contentContainer}>
-          <Text>Awesome 🎉</Text>
-        </BottomSheetView>
-      </BottomSheet>
-    </View>
+    <BottomSheet
+      snapPoints={["99%"]}
+      ref={bottomSheetRef}
+      enablePanDownToClose={true}
+      onChange={handleSheetChanges}
+      onClose={onClose} // Call onClose when BottomSheet closes
+      handleIndicatorStyle={{ height: 0 }}
+      handleStyle={{ height: 0 }}
+    >
+      <BottomSheetView style={styles.contentContainer}>
+        <Image
+          source={{ uri: wallpaper.url?.toString() ?? "" }}
+          style={styles.image}
+        />
+        <Text style={styles.title}>Title:{wallpaper.name}</Text>
+        <Button title="download"></Button>
+      </BottomSheetView>
+    </BottomSheet>
   );
 }
 
@@ -43,7 +53,14 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    alignItems: "center",
-   
   },
+  image: {
+    height: "65%",
+  },
+  title:{
+    fontSize: 20,
+    fontWeight: "bold",
+    margin: 10,
+    
+  }
 });
