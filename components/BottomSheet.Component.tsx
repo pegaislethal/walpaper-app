@@ -1,11 +1,12 @@
 import React, { useCallback, useRef } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import { useWallpapers } from "@/hooks/useWallpaper";
 
 export default function DownloadPicture({ onClose }: { onClose: () => void }) {
   // ref
   const bottomSheetRef = useRef<BottomSheet | null>(null);
-
+  const wallpaper = useWallpapers();
   // callbacks
   const handleSheetChanges = useCallback(
     (index: number) => {
