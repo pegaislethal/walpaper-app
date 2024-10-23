@@ -22,7 +22,7 @@ export default function DownloadPicture({
 }) {
   // ref
   const bottomSheetRef = useRef<BottomSheet | null>(null);
-  const wallpapers = useWallpapers();
+
   const theme = useColorScheme() ?? "light";
   // callbacks
   const handleSheetChanges = useCallback(
@@ -61,21 +61,70 @@ export default function DownloadPicture({
           ></Ionicons>
 
           <Ionicons
-            onPress={() => {
-              
-            }}
+            onPress={() => {}}
             name={"heart"}
             size={22}
             color={theme === "light" ? Colors.light.icon : Colors.dark.icon}
           ></Ionicons>
         </View>
 
-        <Text style={styles.title}>Title:{wallpaper.name}</Text>
-        <Pressable style={styles.button}>
-          <Button title="download"></Button>
-        </Pressable>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: 8,
+          }}
+        >
+          <Text style={styles.title}>{wallpaper.name}</Text>
+          <Ionicons
+            style={{ fontSize: 20 }}
+            onPress={() => {}}
+            name={"share"}
+            size={22}
+            color={theme === "light" ? Colors.light.icon : Colors.dark.icon}
+          >
+            Share
+          </Ionicons>
+        </View>
+        <Download />
       </BottomSheetView>
     </BottomSheet>
+  );
+}
+
+function Download() {
+  const theme = useColorScheme() ?? "light";
+  return (
+    <Pressable
+      style={{
+        backgroundColor: "black",
+        padding: 10,
+        marginHorizontal: 30,
+        paddingVertical: 15,
+        justifyContent: "center",
+        flexDirection: "row",
+        borderRadius: 17,
+      }}
+    >
+{/*       
+      <Text
+        style={{
+          fontSize: 20,
+          color: "white",
+          fontWeight: "600",
+        }}
+      >
+        Download
+      </Text> */}
+      <Ionicons
+        style={{ fontSize: 20, flexDirection: "row",color:"white",fontWeight:600 }}
+        onPress={() => {}}
+        name={"download"}
+        size={22}
+        color={theme === "light" ? Colors.light.icon : Colors.dark.icon}
+      >Download</Ionicons>
+    </Pressable>
   );
 }
 
@@ -87,15 +136,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   image: {
-    height: "60%",
+    height: "70%",
     // borderBottomLeftRadius: 22,
     // borderBottomRightRadius:22
     borderRadius: 15,
   },
   title: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
-    margin: 10,
+    margin: 5,
   },
   button: {
     bottom: 1,
