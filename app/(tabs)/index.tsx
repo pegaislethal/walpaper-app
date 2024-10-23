@@ -47,7 +47,7 @@ export default function Explore() {
             </ThemedView>
             <ThemedView style={styles.innercontainer}>
               <FlatList
-                data={wallpapers.filter((_, index) => index % 2 === 0)}
+                data={wallpapers.filter((_, index) => index % 2 === 1)}
                 renderItem={({ item }) => (
                   <View style={styles.imageContainer}>
                     <Card
