@@ -1,13 +1,10 @@
 import { useState } from "react";
-import { Button, Image, Text, StyleSheet, View } from "react-native";
-import { ThemedView } from "@/components/ThemedView"; // Ensure this is the correct path to your ThemedView component
+import {  Image, Text, StyleSheet, View } from "react-native";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DownloadPicture from "../../components/BottomSheet.Component"; // Ensure this is the correct path to your component
 import { useWallpapers, Wallpapers } from "@/hooks/useWallpaper";
-import Card from "@/components/Card.Component";
-import { FlatList } from "react-native-gesture-handler";
-import { isEnabled } from "react-native/Libraries/Performance/Systrace";
+import { SplitView } from "@/components/SplitView";
 
 export default function Explore() {
   
@@ -30,41 +27,8 @@ export default function Explore() {
             />
           }
         >
-          <ThemedView style={styles.container}>
-            <ThemedView style={styles.innercontainer}>
-              <FlatList
-                data={wallpapers.filter((_, index) => index % 2 === 0)}
-                renderItem={({ item }) => (
-                  <View style={styles.imageContainer}>
-                    <Card
-                      onPress={() => setSelectedWallpaper(item)}
-                      wallpaper={item}
-                    />
-                  </View>
-                )}
-                keyExtractor={(item) => item.name}
-              />
-            </ThemedView>
-            <ThemedView style={styles.innercontainer}>
-              <FlatList
-                data={wallpapers.filter((_, index) => index % 2 === 1)}
-                renderItem={({ item }) => (
-                  <View style={styles.imageContainer}>
-                    <Card
-                      onPress={() => setSelectedWallpaper(item)}
-                      wallpaper={item}
-                    />
-                  </View>
-                )}
-                keyExtractor={(item) => item.name}
-              />
-            </ThemedView>
-          </ThemedView>
+          <SplitView wallpapers={wallpapers} />
         </ParallaxScrollView>
-
-        {selectedWallapper && (
-          <DownloadPicture onClose={() => setSelectedWallpaper(null)} wallpaper={selectedWallapper} />
-        )}
       </View>
     </SafeAreaView>
   );

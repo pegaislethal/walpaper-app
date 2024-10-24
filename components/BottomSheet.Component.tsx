@@ -9,7 +9,7 @@ import {
   useColorScheme,
 } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import { useWallpapers, Wallpapers } from "@/hooks/useWallpaper";
+import {  Wallpapers } from "@/hooks/useWallpaper";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 
@@ -19,6 +19,7 @@ export default function DownloadPicture({
 }: {
   onClose: () => void;
   wallpaper: Wallpapers;
+  
 }) {
   // ref
   const bottomSheetRef = useRef<BottomSheet | null>(null);
@@ -52,6 +53,7 @@ export default function DownloadPicture({
         />
         <View style={styles.topBar}>
           <Ionicons
+          style={{backgroundColor:"black"}}
             onPress={() => {
               bottomSheetRef.current?.close();
             }}
