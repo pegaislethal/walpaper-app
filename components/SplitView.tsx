@@ -24,8 +24,7 @@ export function SplitView({ wallpapers }: { wallpapers: Wallpapers[]}) {
               <View style={styles.imageContainer}>
                 <Card
                   onPress={() => setSelectedWallpaper(item)}
-                  wallpaper={item}
-                  
+                  wallpaper={item}                   
                 />
               </View>
             )}
@@ -39,7 +38,7 @@ export function SplitView({ wallpapers }: { wallpapers: Wallpapers[]}) {
               <View style={styles.imageContainer}>
                 <Card
                   onPress={() => setSelectedWallpaper(item)}
-                  wallpaper={item}
+                  wallpaper={item} 
                 />
               </View>
             )}

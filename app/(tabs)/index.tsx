@@ -9,9 +9,7 @@ import { SplitView } from "@/components/SplitView";
 export default function Explore() {
   
   const wallpapers = useWallpapers();
-  const [selectedWallapper, setSelectedWallpaper] = useState<null | Wallpapers>(
-    null
-  );
+
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -22,7 +20,7 @@ export default function Explore() {
             <Image
               style={{ flex: 1 }}
               source={{
-                uri: wallpapers[0]?.url ?? "",
+                uri: wallpapers[0]?.url?.toString() ?? "",
               }}
             />
           }

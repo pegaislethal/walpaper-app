@@ -1,8 +1,8 @@
 import { View,Text, StyleSheet } from "react-native";
 import { SplitView } from "@/components/SplitView";
-import { useWallpapers } from "@/hooks/useWallpaper";
+import { useLikededWallpapers, useWallpapers } from "@/hooks/useWallpaper";
 export default function Liked(){
-    const wallpaper = useWallpapers();
+    const wallpaper = useLikededWallpapers();
     return(
         <View style={styles.container}>
             <SplitView wallpapers={wallpaper}/>

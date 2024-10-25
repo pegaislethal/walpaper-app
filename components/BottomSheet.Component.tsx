@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -16,15 +16,19 @@ import { Colors } from "@/constants/Colors";
 export default function DownloadPicture({
   onClose,
   wallpaper,
+  
 }: {
   onClose: () => void;
   wallpaper: Wallpapers;
-  
 }) {
   // ref
-  const bottomSheetRef = useRef<BottomSheet | null>(null);
-
   const theme = useColorScheme() ?? "light";
+  const bottomSheetRef = useRef<BottomSheet | null>(null);
+  const defaultIconColor = theme === "light" ? Colors.light.icon : Colors.dark.icon;
+  const [isLiked, setIsLiked] = useState(false);
+
+
+
   // callbacks
   const handleSheetChanges = useCallback(
     (index: number) => {
@@ -63,10 +67,12 @@ export default function DownloadPicture({
           ></Ionicons>
 
           <Ionicons
-            onPress={() => {}}
+            onPress={() => {
+                setIsLiked(!isLiked)
+            }}
             name={"heart"}
             size={22}
-            color={theme === "light" ? Colors.light.icon : Colors.dark.icon}
+            color={isLiked?"red":defaultIconColor}
           ></Ionicons>
         </View>
 
@@ -81,7 +87,9 @@ export default function DownloadPicture({
           <Text style={styles.title}>{wallpaper.name}</Text>
           <Ionicons
             style={{ fontSize: 20 }}
-            onPress={() => {}}
+            onPress={() => {
+             
+            }}
             name={"share"}
             size={22}
             color={theme === "light" ? Colors.light.icon : Colors.dark.icon}

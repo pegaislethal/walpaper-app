@@ -1,9 +1,9 @@
 import { SplitView } from "@/components/SplitView";
-import { useWallpapers } from "@/hooks/useWallpaper";
 import { View,StyleSheet,Text } from "react-native";
+import { useLibraryWallpapers } from "@/hooks/useWallpaper";
 
 export default function Library() {
-  const wallpaper = useWallpapers();
+  const wallpaper = useLibraryWallpapers();
 
   return (
     <View style={styles.container}>

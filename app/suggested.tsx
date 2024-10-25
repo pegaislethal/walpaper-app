@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet } from "react-native";
-import { useWallpapers } from "@/hooks/useWallpaper";
+import { useSuggestedWallpapers, useWallpapers } from "@/hooks/useWallpaper";
 import { SplitView } from "@/components/SplitView";
 export default function Suggested() {
-  const wallpaper = useWallpapers();
+  const wallpaper = useSuggestedWallpapers();
   return (
     <View style={styles.container}>
       <SplitView wallpapers={wallpaper} />

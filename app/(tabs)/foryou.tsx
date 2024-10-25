@@ -5,8 +5,6 @@ import Liked from "../liked";
 import Suggested from "../suggested";
 import { StyleSheet, Image, View } from "react-native";
 import { useWallpapers } from "@/hooks/useWallpaper";
-import { Ionicons } from "@expo/vector-icons";
-import { SplitView } from "@/components/SplitView";
 const Tab = createMaterialTopTabNavigator();
 
 export default function ForYou() {
@@ -14,14 +12,7 @@ export default function ForYou() {
   
   return (
     <SafeAreaView style={styles.container}>
-      {/* <View  style={styles.personBar}>
-        <Ionicons
-        name={"person"}
-        size={30}
-        >
-
-        </Ionicons>
-      </View> */}
+  
       <Tab.Navigator>
         <Tab.Screen name="suggested" component={Suggested} />
         <Tab.Screen name="liked" component={Liked} />
@@ -30,34 +21,6 @@ export default function ForYou() {
     </SafeAreaView>
   );
 }
-
-// export  function Liked(){
-//   const wallpaper = useWallpapers();
-//   return(
-//     <View style={styles.container}>
-//           <SplitView wallpapers={wallpaper}/>
-//       </View>
-//   )
-// }
-
-// export function Library() {
-//   const wallpaper = useWallpapers();
-
-//   return (
-//     <View style={styles.container}>
-//       <SplitView wallpapers={wallpaper} />
-//     </View>
-//   );
-// }
-
-// export  function Suggested() {
-//   const wallpaper = useWallpapers();
-//   return (
-//     <View style={styles.container}>
-//       <SplitView wallpapers={wallpaper} />
-//     </View>
-//   );
-// }
 
 const styles = StyleSheet.create({
   container: {

@@ -4,15 +4,21 @@ import { ThemedText } from "./ThemedText";
 import { Ionicons } from "@expo/vector-icons";
 import { useColorScheme } from "@/hooks/useColorScheme.web";
 import { Colors } from "@/constants/Colors";
+import { useState } from "react";
 
 export default function Card({
   wallpaper,
   onPress,
+
+
 }: {
   wallpaper: Wallpapers;
   onPress: () => void;
+
 }) {
   const theme = useColorScheme() ?? "light";
+  const defaultIconColor = theme === "light" ? Colors.light.icon : Colors.dark.icon;
+  const [isLiked, setIsLiked] = useState(false);
 
   return (
     <Pressable onPress={onPress}>
@@ -22,9 +28,12 @@ export default function Card({
           <ThemedText style={style.label}>{wallpaper.name}</ThemedText>
           <View style={style.iconContainer}>
             <Ionicons
+              onPress={() => {
+                setIsLiked(!isLiked);
+              }}
               name={"heart"}
               size={18}
-              color={theme === "light" ? Colors.light.icon : Colors.dark.icon}
+              color={isLiked ? "red" : defaultIconColor} // Toggle color based on 'isLiked' state
             />
           </View>
         </View>
@@ -32,6 +41,7 @@ export default function Card({
     </Pressable>
   );
 }
+
 const style = StyleSheet.create({
   container: {
     margin: 4,
