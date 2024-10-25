@@ -147,8 +147,6 @@ const styles = StyleSheet.create({
   },
   image: {
     height: "70%",
-    // borderBottomLeftRadius: 22,
-    // borderBottomRightRadius:22
     borderRadius: 15,
   },
   title: {
