@@ -4,11 +4,10 @@ import Library from "../library";
 import Liked from "../liked";
 import Suggested from "../suggested";
 import { StyleSheet, Image, View } from "react-native";
-import { useWallpapers } from "@/hooks/useWallpaper";
+
 const Tab = createMaterialTopTabNavigator();
 
 export default function ForYou() {
-  const wallpapers = useWallpapers(); // Fetch wallpapers data
   
   return (
     <SafeAreaView style={styles.container}>
