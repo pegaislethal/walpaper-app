@@ -4,20 +4,25 @@ import {
   useColorScheme,
   View,
   StyleSheet,
+  Appearance,
+  Button,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { Link } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { ThemedText } from "@/components/ThemedText";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { ThemedView } from "@/components/ThemedView";
+import { Colors } from "@/constants/Colors";
 
 export default function Account() {
+  const them = useColorScheme() ?? "light";
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={{ flex: 1 }}>
       <Header />
-      <View style={styles.content}>
+      <ThemedView style={styles.content}>
         <LoginButton />
         <ThemeSelector />
-      </View>
+      </ThemedView>
       <View style={styles.linkContainer}>
         <Link href={"/accountinfo"}>
           <ThemedText style={styles.linkText}>Account Information</ThemedText>
@@ -29,27 +34,38 @@ export default function Account() {
 
 function Header() {
   return (
-    <View style={styles.topBar}>
+    <ThemedView style={styles.topBar}>
       <ThemedText style={styles.titleText}>Panels</ThemedText>
       <ThemedText style={styles.subtitleText}>
         Sign in to save your data
       </ThemedText>
-    </View>
+    </ThemedView>
   );
 }
 
 function LoginButton() {
   const theme = useColorScheme() ?? "light";
-  const iconColor = theme === "light" ? "#000" : "#fff";
   return (
     <View style={styles.authContainer}>
       <AuthButton
         labels={"Sign In with Google"}
-        icons={<Ionicons name={"logo-google"} size={24} color={iconColor} />}
+        icons={
+          <Ionicons
+            name={"logo-google"}
+            size={24}
+            color={theme === "light" ? Colors.light.text : Colors.dark.icon}
+          />
+        }
       />
       <AuthButton
         labels={"Sign In with Apple"}
-        icons={<Ionicons name={"logo-apple"} size={24} color={iconColor} />}
+        icons={
+          <Ionicons
+            name={"logo-apple"}
+            size={24}
+            color={theme === "light" ? Colors.light.text : Colors.dark.icon}
+          />
+        }
       />
     </View>
   );
@@ -57,49 +73,83 @@ function LoginButton() {
 
 function ThemeSelector() {
   return (
-    <View style={styles.themeSelectorContainer}>
+    <ThemedView style={styles.themeSelectorContainer}>
       <ThemedText style={styles.sectionTitle}>Settings</ThemedText>
       <ThemedText style={styles.themeText}>Theme</ThemedText>
 
-      <View style={styles.themeButtonContainer}>
-        <ThemeButton title={"Dark"} selected={false} />
-        <ThemeButton title={"Light"} selected={false} />
-        <ThemeButton title={"System"} selected={false} />
-      </View>
-    </View>
+      <ThemedView style={styles.themeButtonContainer}>
+        <ThemeButton title={"Dark"} selected={false} colorScheme="dark" />
+        <ThemeButton title={"Light"} selected={false} colorScheme="light" />
+        <ThemeButton title={"System"} selected={false} colorScheme={null} />
+      </ThemedView>
+    </ThemedView>
   );
 }
 
 function ThemeButton({
   title,
   selected,
+  colorScheme,
 }: {
-  title: string;
   selected: boolean;
+  title: string;
+  colorScheme: "dark" | "light" | null;
 }) {
+  const theme = useColorScheme();
+
   return (
     <Pressable
-      style={[styles.themeButton, selected && styles.themeButtonSelected]}
+      style={{
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: theme === "light" ? Colors.light.text : Colors.dark.icon,
+        flex: 0.3,
+      }}
+      onPress={() => {
+        Appearance.setColorScheme(colorScheme);
+      }}
     >
-      <ThemedText style={styles.themeButtonText}>{title}</ThemedText>
+      <ThemedText style={{ width: "100%", textAlign: "center" }}>
+        {title}
+      </ThemedText>
     </Pressable>
   );
 }
 
 function AuthButton({ labels, icons }: { labels: string; icons: any }) {
+  const theme = useColorScheme() ?? "light";
   return (
-    <Pressable style={styles.authButton}>
+    <Pressable
+      style={{
+        backgroundColor: theme,
+        padding: 15,
+        marginVertical: 10,
+        width: "85%",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 12,
+        borderColor: theme === 'light' ? Colors.light.text : Colors.dark.icon,
+      }}
+    >
+  
       {icons}
-      <Text style={styles.authButtonText}>{labels}</Text>
+      <Text
+        style={{
+          fontSize: 18,
+          fontWeight: "600",
+          marginLeft: 10,
+        }}
+      >
+        {labels}
+      </Text>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f0f0f0",
-  },
   content: {
     flex: 1,
     justifyContent: "center",
@@ -107,38 +157,20 @@ const styles = StyleSheet.create({
   },
   topBar: {
     paddingVertical: 20,
-    alignItems: "center",
-    backgroundColor: "#000000",
   },
   titleText: {
     fontSize: 24,
     fontWeight: "700",
-    color: "#fff",
+    color: "#000000",
   },
   subtitleText: {
     fontSize: 16,
-    color: "#e0e0e0",
+    color: "#000000",
     marginTop: 5,
   },
   authContainer: {
     alignItems: "center",
     marginVertical: 20,
-  },
-  authButton: {
-    backgroundColor: "black",
-    padding: 15,
-    marginVertical: 10,
-    width: "85%",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 12,
-  },
-  authButtonText: {
-    fontSize: 18,
-    color: "white",
-    fontWeight: "600",
-    marginLeft: 10,
   },
   themeSelectorContainer: {
     marginVertical: 20,
@@ -160,19 +192,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: 10,
     margin: 20,
-  },
-  themeButton: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 10,
-    backgroundColor: "#d3d3d3",
-  },
-  themeButtonSelected: {
-    backgroundColor: "#6200ea",
-  },
-  themeButtonText: {
-    fontSize: 16,
-    color: "#333",
   },
   linkContainer: {
     paddingVertical: 10,
