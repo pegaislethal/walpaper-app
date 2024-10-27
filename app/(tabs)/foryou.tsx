@@ -25,13 +25,4 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  personBar: {
-    height: 160, // Height of the image container
-    borderRadius:40,
-    backgroundColor:"#33322f"
-  },
-  image: {
-    width: "100%", // Full width of the screen
-    height: "100%", // Full height of the image container
-  },
 });

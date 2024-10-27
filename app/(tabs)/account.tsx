@@ -13,71 +13,61 @@ import { ThemedText } from "@/components/ThemedText";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ThemedView } from "@/components/ThemedView";
 import { Colors } from "@/constants/Colors";
+import React from "react";
 
 export default function Account() {
-  const them = useColorScheme() ?? "light";
+  const theme = useColorScheme() ?? "light";
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Header />
-      <ThemedView style={styles.content}>
+      <ThemedView style={{ flex: 1 }}>
         <LoginButton />
         <ThemeSelector />
+        <View
+          style={{
+            flex: 1,
+            backgroundColor:
+              theme === "light" ? Colors.light.background : Colors.dark.background,
+            padding: 10,
+          }}
+        >
+          <Link href={"/accountinfo"}>
+            <ThemedText
+              style={{
+                color: theme === "light" ? Colors.light.text : Colors.dark.icon,
+                fontWeight: 500,
+                fontSize: 18,
+              }}
+            >
+              Account Information
+            </ThemedText>
+          </Link>
+          <View
+            style={{
+              backgroundColor: "black",
+              width: "100%",
+              padding: 0.5,
+              marginLeft: 2,
+              top: 8,
+            }}
+          ></View>
+        </View>
       </ThemedView>
-      <View style={styles.linkContainer}>
-        <Link href={"/accountinfo"}>
-          <ThemedText style={styles.linkText}>Account Information</ThemedText>
-        </Link>
-      </View>
     </SafeAreaView>
   );
 }
-
-function Header() {
-  return (
-    <ThemedView style={styles.topBar}>
-      <ThemedText style={styles.titleText}>Panels</ThemedText>
-      <ThemedText style={styles.subtitleText}>
-        Sign in to save your data
-      </ThemedText>
-    </ThemedView>
-  );
-}
-
-function LoginButton() {
-  const theme = useColorScheme() ?? "light";
-  return (
-    <View style={styles.authContainer}>
-      <AuthButton
-        labels={"Sign In with Google"}
-        icons={
-          <Ionicons
-            name={"logo-google"}
-            size={24}
-            color={theme === "light" ? Colors.light.text : Colors.dark.icon}
-          />
-        }
-      />
-      <AuthButton
-        labels={"Sign In with Apple"}
-        icons={
-          <Ionicons
-            name={"logo-apple"}
-            size={24}
-            color={theme === "light" ? Colors.light.text : Colors.dark.icon}
-          />
-        }
-      />
-    </View>
-  );
-}
-
 function ThemeSelector() {
   return (
-    <ThemedView style={styles.themeSelectorContainer}>
-      <ThemedText style={styles.sectionTitle}>Settings</ThemedText>
-      <ThemedText style={styles.themeText}>Theme</ThemedText>
-
-      <ThemedView style={styles.themeButtonContainer}>
+    <ThemedView style={styles.margin}>
+      <ThemedText style={styles.textBig}>Settings</ThemedText>
+      <ThemedText>Theme</ThemedText>
+      <ThemedView
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          marginTop: 10,
+        }}
+      >
         <ThemeButton title={"Dark"} selected={false} colorScheme="dark" />
         <ThemeButton title={"Light"} selected={false} colorScheme="light" />
         <ThemeButton title={"System"} selected={false} colorScheme={null} />
@@ -100,11 +90,10 @@ function ThemeButton({
   return (
     <Pressable
       style={{
-        paddingVertical: 8,
-        paddingHorizontal: 16,
-        borderRadius: 10,
-        borderWidth: 1,
+        padding: 12,
+        borderWidth: 2,
         borderColor: theme === "light" ? Colors.light.text : Colors.dark.icon,
+        borderRadius: 8,
         flex: 0.3,
       }}
       onPress={() => {
@@ -118,87 +107,86 @@ function ThemeButton({
   );
 }
 
-function AuthButton({ labels, icons }: { labels: string; icons: any }) {
+function LoginButton() {
   const theme = useColorScheme() ?? "light";
+  return (
+    <>
+      <AuthButton
+        label={"Sign in"}
+        icon={
+          <Ionicons
+            name={"logo-google"}
+            size={24}
+            color={theme === "light" ? Colors.light.text : Colors.dark.icon}
+          />
+        }
+      />
+      <AuthButton
+        label={"Sign in"}
+        icon={
+          <Ionicons
+            name={"logo-apple"}
+            size={24}
+            color={theme === "light" ? Colors.light.text : Colors.dark.icon}
+          />
+        }
+      />
+    </>
+  );
+}
+
+function Header() {
+  return (
+    <ThemedView style={styles.topbar}>
+      <ThemedText style={styles.textBig}>Panels</ThemedText>
+      <ThemedText>Sign in to save your data</ThemedText>
+    </ThemedView>
+  );
+}
+
+function AuthButton({ label, icon }: { label: string; icon: any }) {
+  const theme = useColorScheme() ?? "light";
+
   return (
     <Pressable
       style={{
         backgroundColor: theme,
-        padding: 15,
+        padding: 12,
+        marginHorizontal: 40,
         marginVertical: 10,
-        width: "85%",
-        flexDirection: "row",
         justifyContent: "center",
-        alignItems: "center",
-        borderRadius: 12,
-        borderColor: theme === 'light' ? Colors.light.text : Colors.dark.icon,
+        flexDirection: "row",
+        borderRadius: 10,
+        borderWidth: 3,
+        borderColor: theme === "light" ? Colors.light.text : Colors.dark.icon,
       }}
     >
-  
-      {icons}
-      <Text
+      {icon}
+      <ThemedText
         style={{
-          fontSize: 18,
+          fontSize: 20,
           fontWeight: "600",
-          marginLeft: 10,
         }}
       >
-        {labels}
-      </Text>
+        {label}
+      </ThemedText>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  content: {
-    flex: 1,
-    justifyContent: "center",
-    paddingHorizontal: 20,
+  textBig: {
+    fontSize: 25,
+    fontWeight: "600",
   },
-  topBar: {
-    paddingVertical: 20,
-  },
-  titleText: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: "#000000",
-  },
-  subtitleText: {
-    fontSize: 16,
-    color: "#000000",
-    marginTop: 5,
-  },
-  authContainer: {
-    alignItems: "center",
-    marginVertical: 20,
+  topbar: {
+    padding: 20,
   },
   themeSelectorContainer: {
-    marginVertical: 20,
+    flex: 1,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: 600,
-    marginBottom: 10,
-    color: "black",
-  },
-  themeText: {
-    fontSize: 20,
-    color: "black",
-    marginBottom: 10,
-    fontWeight: 500,
-  },
-  themeButtonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingVertical: 10,
-    margin: 20,
-  },
-  linkContainer: {
-    paddingVertical: 10,
-    left: 20,
-  },
-  linkText: {
-    fontSize: 18,
-    color: "black",
+  themeSelectorChild: {},
+  margin: {
+    padding: 20,
   },
 });
