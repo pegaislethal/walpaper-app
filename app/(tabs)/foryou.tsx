@@ -3,16 +3,24 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Library from "../library";
 import Liked from "../liked";
 import Suggested from "../suggested";
-import { StyleSheet, Image, View } from "react-native";
+import { StyleSheet, Image, View, useColorScheme } from "react-native";
+import { Colors } from "@/constants/Colors";
 
 const Tab = createMaterialTopTabNavigator();
 
 export default function ForYou() {
-  
+  const theme = useColorScheme()??"light";
   return (
     <SafeAreaView style={styles.container}>
   
-      <Tab.Navigator>
+      <Tab.Navigator style={{flex:1,
+
+      }} screenOptions={{
+        tabBarActiveTintColor:Colors[theme].tint,
+        tabBarStyle:{
+          backgroundColor:Colors[theme].background
+        }
+      }}>
         <Tab.Screen name="suggested" component={Suggested} />
         <Tab.Screen name="liked" component={Liked} />
         <Tab.Screen name="library" component={Library} />

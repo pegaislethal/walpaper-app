@@ -1,48 +1,58 @@
-import { useState } from "react";
-import {  Image, Text, StyleSheet, View } from "react-native";
+import { Text, Image, StyleSheet, View, Dimensions } from "react-native";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { SafeAreaView } from "react-native-safe-area-context";
-import DownloadPicture from "../../components/BottomSheet.Component"; // Ensure this is the correct path to your component
 import { useWallpapers, Wallpapers } from "@/hooks/useWallpaper";
 import { SplitView } from "@/components/SplitView";
+import Carousel from "react-native-reanimated-carousel";
+import React from "react";
+import { ThemedView } from "@/components/ThemedView";
 
 export default function Explore() {
-  
   const wallpapers = useWallpapers();
-
+  const width = Dimensions.get("window").width;
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1 }}>
-        <ParallaxScrollView
-          headerBackgroundColor={{ dark: "black", light: "white" }}
-          headerImage={
-            <Image
-              style={{ flex: 1 }}
-              source={{
-                uri: wallpapers[0]?.url?.toString() ?? "",
-              }}
+      <Carousel
+        loop
+        autoPlay={true}
+        scrollAnimationDuration={1200}
+        width={width}
+        height={width * 2}
+        data={wallpapers}
+        renderItem={({ index }) => (
+          <View style={styles.carouselItem}>
+            <ParallaxScrollView
+              headerBackgroundColor={{ dark: "black", light: "white" }}
+              headerImage={
+                wallpapers[index]?.url ? (
+                  <Image
+                    style={styles.headerImage}
+                    source={{ uri: wallpapers[index].url.toString() }}
+                  />
+                ) : (
+                  <View style={styles.placeholder} />
+                )
+              }
             />
-          }
-        >
-          <SplitView wallpapers={wallpapers} />
-        </ParallaxScrollView>
-      </View>
+          </View>
+        )}
+      />
+      <SplitView wallpapers={wallpapers} />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    display: "flex",
-    flexDirection: "row",
+  carouselItem: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  headerImage: {
     flex: 1,
   },
-  innercontainer: {
-    flex: 0.5,
-    padding: 4,
-  },
-  imageContainer: {
-    paddingVertical: 10,
+  placeholder: {
+    flex: 1,
+    backgroundColor: "gray",
   },
 });
