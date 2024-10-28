@@ -50,7 +50,7 @@ export default function DownloadPicture({
       }}
     >
       <BottomSheetView style={styles.contentContainer}>
-        <ThemedView>
+        <ThemedView style={{flex:1}}>
           <Image
             source={{ uri: wallpaper.url?.toString() ?? "" }}
             style={styles.image}
@@ -122,32 +122,34 @@ export default function DownloadPicture({
 function Download() {
   const theme = useColorScheme() ?? "light";
   return (
-    <Pressable
-      style={{
-        backgroundColor: "black",
-        padding: 10,
-        marginHorizontal: 30,
-        paddingVertical: 15,
-        justifyContent: "center",
-        flexDirection: "row",
-        borderRadius: 17,
-      }}
-    >
-      <Ionicons
+    
+      <Pressable
         style={{
-          fontSize: 20,
+          backgroundColor: "black",
+          padding: 10,
+          marginHorizontal: 30,
+          paddingVertical: 15,
+          justifyContent: "center",
           flexDirection: "row",
-          color: "white",
-          fontWeight: 600,
+          borderRadius: 17,
         }}
-        onPress={() => {}}
-        name={"download"}
-        size={22}
-        color={theme === "light" ? Colors.light.icon : Colors.dark.icon}
       >
-        Download
-      </Ionicons>
-    </Pressable>
+        <Ionicons
+          style={{
+            fontSize: 20,
+            flexDirection: "row",
+            color: "white",
+            fontWeight: 600,
+          }}
+          onPress={() => {}}
+          name={"download"}
+          size={22}
+          color={theme === "light" ? Colors.light.icon : Colors.dark.icon}
+        >
+          Download
+        </Ionicons>
+      </Pressable>
+   
   );
 }
 
