@@ -32,7 +32,7 @@ export function useWallpapers(): FullWallpaper[]{
             url:"https://plus.unsplash.com/premium_photo-1680871320511-8be2085ff281?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHNwbGFzaHxlbnwwfHwwfHx8MA%3D%3D",
             name:"Sea",
             liked:false,
-            suggested:false,
+            suggested:true,
             library:true
 
            
@@ -42,7 +42,7 @@ export function useWallpapers(): FullWallpaper[]{
             name:"Clouds",
             liked:true,
             suggested:true,
-            library:false
+            library:true
 
             
             
@@ -52,13 +52,22 @@ export function useWallpapers(): FullWallpaper[]{
             name:"Hills",
             liked:true,
             suggested:false,
-            library:false
+            library:true
 
            
             
         },
         {
             url:"https://images.unsplash.com/photo-1729008920276-e9e61d13c2db?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw0N3x8fGVufDB8fHx8fA%3D%3D",
+            name:"Morning",
+            liked:false,
+            suggested:false,
+            library:true
+
+            
+        },
+        {
+            url:"https://images.unsplash.com/photo-1729432535889-a9c8bd398188?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyNXx8fGVufDB8fHx8fA%3D%3D",
             name:"Morning",
             liked:false,
             suggested:false,
