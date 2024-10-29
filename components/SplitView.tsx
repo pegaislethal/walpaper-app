@@ -3,7 +3,7 @@ import { ThemedView } from "./ThemedView";
 import { View, StyleSheet, FlatList } from "react-native";
 import Card from "./Card.Component";
 import { useState } from "react";
-import { DownloadPicture } from "./BottomSheet.Component";
+import DownloadPicture from "./BottomSheet.Component";
 import React from "react";
 
 export function SplitView({

@@ -1,16 +1,10 @@
-import {
-  Image,
-  View,
-  Dimensions,
-  Text,
-  StyleSheet,
-} from "react-native";
+import { Image, View, Dimensions, Text, StyleSheet } from "react-native";
 import { useWallpapers } from "@/hooks/useWallpaper";
 import { SplitView } from "@/components/SplitView";
 import Carousel from "react-native-reanimated-carousel";
 import React, { useState } from "react";
 import useCarousel from "@/hooks/useCarousel";
-import Animated,{
+import Animated, {
   interpolate,
   useAnimatedStyle,
 } from "react-native-reanimated";
@@ -44,19 +38,18 @@ export default function Explore() {
     return {
       opacity: interpolate(
         yOffset,
-        [-TOPBAR_HEIGHT, TOPBAR_HEIGHT/2, TOPBAR_HEIGHT],
+        [-TOPBAR_HEIGHT, TOPBAR_HEIGHT / 2, TOPBAR_HEIGHT],
         [1.5, 1, 1]
       ),
     };
   });
 
   return (
-    
     <ThemedSafeAreaView style={{ flex: 1 }}>
       <Animated.View
         style={[
           { height: Math.max(0, TOPBAR_HEIGHT - yOffset) },
-            headerAnimatedStyle
+          headerAnimatedStyle,
         ]}
       >
         <Carousel
@@ -109,7 +102,7 @@ export default function Explore() {
           )}
         />
       </Animated.View>
-      <ThemedView style={{ flex:1, }}>
+      <ThemedView style={{ flex: 1 }}>
         <SplitView
           onScroll={(yOffset) => {
             setScrollY(yOffset);
@@ -120,17 +113,3 @@ export default function Explore() {
     </ThemedSafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    flex: 1,
-  },
-  innerContainer: {
-    flex: 1,
-    padding: 10,
-  },
-  imageContainer: {
-    paddingVertical: 10,
-  },
-});
