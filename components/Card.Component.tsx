@@ -9,38 +9,36 @@ import { useState } from "react";
 export default function Card({
   wallpaper,
   onPress,
-
-
+  isScrolling, // Accept isScrolling prop
 }: {
   wallpaper: Wallpapers;
   onPress: () => void;
-
+  isScrolling: boolean; // Add isScrolling type
 }) {
   const theme = useColorScheme() ?? "light";
-  const defaultIconColor = theme === "light" ? Colors.light.icon : Colors.dark.icon;
   const [isLiked, setIsLiked] = useState(false);
+  const defaultIconColor = theme === "light" ? Colors.light.icon : Colors.dark.icon;
 
   return (
-    <Pressable onPress={onPress}>
+    <Pressable onPress={!isScrolling ? onPress : undefined}>
       <View style={style.container}>
         <Image source={{ uri: wallpaper.url as string }} style={style.image} />
         <View style={style.labelcontainer}>
           <ThemedText style={style.label}>{wallpaper.name}</ThemedText>
-          <View style={style.iconContainer}>
-            <Ionicons
-              onPress={() => {
-                setIsLiked(!isLiked);
-              }}
-              name={"heart"}
-              size={18}
-              color={isLiked ? "red" : defaultIconColor} // Toggle color based on 'isLiked' state
-            />
-          </View>
+          <Ionicons
+            onPress={() => {
+              if (!isScrolling) setIsLiked(!isLiked);
+            }}
+            name="heart"
+            size={18}
+            color={isLiked ? "red" : defaultIconColor}
+          />
         </View>
       </View>
     </Pressable>
   );
 }
+
 
 const style = StyleSheet.create({
   container: {

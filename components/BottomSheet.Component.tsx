@@ -42,8 +42,12 @@ export default function DownloadPicture({
       snapPoints={["100%"]}
       ref={bottomSheetRef}
       enablePanDownToClose={true}
+      onClose={()=>{
+        bottomSheetRef.current?.close();
+      }}
       onChange={handleSheetChanges}
-      onClose={onClose}
+   
+    
       handleIndicatorStyle={{ display: "none" }}
       handleStyle={{ display: "none" }}
       style={{
@@ -51,7 +55,7 @@ export default function DownloadPicture({
           theme === "light" ? Colors.light.background : Colors.dark.background,
       }}
     >
-      <BottomSheetView style={styles.contentContainer}>
+      <BottomSheetView style={styles.contentContainer} pointerEvents="none">
         <ThemedView style={{ flex: 1 }}>
           <Image
             source={{ uri: wallpaper.url?.toString() ?? "" }}
