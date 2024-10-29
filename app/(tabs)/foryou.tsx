@@ -9,18 +9,23 @@ import { Colors } from "@/constants/Colors";
 const Tab = createMaterialTopTabNavigator();
 
 export default function ForYou() {
-  const theme = useColorScheme()??"light";
+  const theme = useColorScheme() ?? "light";
   return (
     <SafeAreaView style={styles.container}>
-  
-      <Tab.Navigator style={{flex:1,
+      <Tab.Navigator
+        style={{ flex: 1 }}
+        screenOptions={{
+          tabBarActiveTintColor: Colors[theme].tint,
+          tabBarStyle: {
+            backgroundColor: Colors[theme].background,
+          },
 
-      }} screenOptions={{
-        tabBarActiveTintColor:Colors[theme].tint,
-        tabBarStyle:{
-          backgroundColor:Colors[theme].background
-        }
-      }}>
+          tabBarIndicatorStyle:{
+            backgroundColor:Colors[theme].indicator,
+            height:3
+          }
+        }}
+      >
         <Tab.Screen name="suggested" component={Suggested} />
         <Tab.Screen name="liked" component={Liked} />
         <Tab.Screen name="library" component={Library} />

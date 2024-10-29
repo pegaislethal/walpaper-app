@@ -68,7 +68,7 @@ export function useWallpapers(): FullWallpaper[]{
         },
         {
             url:"https://images.unsplash.com/photo-1729432535889-a9c8bd398188?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyNXx8fGVufDB8fHx8fA%3D%3D",
-            name:"Morning",
+            name:"Wow",
             liked:false,
             suggested:false,
             library:true

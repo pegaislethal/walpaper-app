@@ -14,7 +14,7 @@ export function SplitView({wallpapers, onScroll}: {
     return <>
             <FlatList
                 onScroll={(e) => {
-                    let yOffset = e.nativeEvent.contentOffset.y / 1;
+                    let yOffset = e.nativeEvent.contentOffset.y / 0.5;
                     onScroll?.(yOffset);
                 }}
                 data={wallpapers.filter((_, index) => index % 2 === 1).map((_, index) => [wallpapers[index], wallpapers[index + 1]])}

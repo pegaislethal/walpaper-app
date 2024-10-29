@@ -12,6 +12,8 @@ import { Wallpapers } from "@/hooks/useWallpaper";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 import { ThemedView } from "./ThemedView";
+import * as MediaLibrary from "expo-media-library";
+import * as FileSystem from "expo-file-system";
 
 export default function DownloadPicture({
   onClose,
@@ -50,16 +52,14 @@ export default function DownloadPicture({
       }}
     >
       <BottomSheetView style={styles.contentContainer}>
-        <ThemedView style={{flex:1}}>
+        <ThemedView style={{ flex: 1 }}>
           <Image
             source={{ uri: wallpaper.url?.toString() ?? "" }}
             style={styles.image}
           />
           <View style={styles.topBar}>
             <Pressable
-              onPress={() => {
-                bottomSheetRef.current?.close();
-              }}
+              onPress={onClose}
               style={{
                 backgroundColor:
                   theme === "light"
@@ -112,44 +112,58 @@ export default function DownloadPicture({
               Share
             </Ionicons>
           </ThemedView>
-          <Download />
+          <Download url={wallpaper.url?.toString() ?? ""} />
         </ThemedView>
       </BottomSheetView>
     </BottomSheet>
   );
 }
 
-function Download() {
+function Download({ url }: { url: string }) {
   const theme = useColorScheme() ?? "light";
+
   return (
-    
-      <Pressable
+    <Pressable
+      onPress={async () => {
+        let date = new Date().getTime();
+        let fileUrl = FileSystem.documentDirectory + `${date}.jpg`;
+        try {
+          await FileSystem.downloadAsync(url, fileUrl);
+          const response = await MediaLibrary.requestPermissionsAsync(true);
+
+          if (response.granted) {
+            MediaLibrary.saveToLibraryAsync(fileUrl);
+          } else {
+            console.error("Permission not granted you couldn't save image");
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }}
+      style={{
+        backgroundColor: "black",
+        padding: 10,
+        marginHorizontal: 30,
+        paddingVertical: 15,
+        justifyContent: "center",
+        flexDirection: "row",
+        borderRadius: 17,
+      }}
+    >
+      <Ionicons
         style={{
-          backgroundColor: "black",
-          padding: 10,
-          marginHorizontal: 30,
-          paddingVertical: 15,
-          justifyContent: "center",
+          fontSize: 20,
           flexDirection: "row",
-          borderRadius: 17,
+          color: "white",
+          fontWeight: 600,
         }}
+        name={"download"}
+        size={22}
+        color={theme === "light" ? Colors.light.icon : Colors.dark.icon}
       >
-        <Ionicons
-          style={{
-            fontSize: 20,
-            flexDirection: "row",
-            color: "white",
-            fontWeight: 600,
-          }}
-          onPress={() => {}}
-          name={"download"}
-          size={22}
-          color={theme === "light" ? Colors.light.icon : Colors.dark.icon}
-        >
-          Download
-        </Ionicons>
-      </Pressable>
-   
+        Download
+      </Ionicons>
+    </Pressable>
   );
 }
 
@@ -170,3 +184,6 @@ const styles = StyleSheet.create({
     width: "100%",
   },
 });
+function saveFile(url: any) {
+  throw new Error("Function not implemented.");
+}

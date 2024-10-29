@@ -14,48 +14,72 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ThemedView } from "@/components/ThemedView";
 import { Colors } from "@/constants/Colors";
 import React from "react";
+import { ScrollView } from "react-native-gesture-handler";
+import ThemedSafeAreaView from "@/components/ThemedSafeAreaView";
 
 export default function Account() {
   const theme = useColorScheme() ?? "light";
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <Header />
-      <ThemedView style={{ flex: 1 }}>
-        <LoginButton />
-        <ThemeSelector />
-        <View
-          style={{
-            flex: 1,
-            backgroundColor:
-              theme === "light" ? Colors.light.background : Colors.dark.background,
-            padding: 10,
-          }}
-        >
-          <Link href={"/accountinfo"}>
-            <ThemedText
-              style={{
-                color: theme === "light" ? Colors.light.text : Colors.dark.icon,
-                fontWeight: 500,
-                fontSize: 18,
-              }}
-            >
-              Account Information
-            </ThemedText>
-          </Link>
+    <ThemedSafeAreaView style={{ flex: 1 }}>
+      <ScrollView style={{flex:1}}>
+        <Header />
+        <ThemedView style={{ flex: 1 }}>
+          <LoginButton />
+          <ThemeSelector />
           <View
             style={{
-              backgroundColor: "black",
-              width: "100%",
-              padding: 0.5,
-              marginLeft: 2,
-              top: 8,
+              flex: 1,
+              backgroundColor:
+                theme === "light"
+                  ? Colors.light.background
+                  : Colors.dark.background,
+              padding: 10,
             }}
-          ></View>
-        </View>
-      </ThemedView>
-    </SafeAreaView>
+          >
+           
+            <View
+              style={{
+                backgroundColor: "black",
+                width: "100%",
+                padding: 0.5,
+                marginLeft: 2,
+                top: 8,
+              }}
+            ></View>
+          </View>
+          <About />
+        </ThemedView>
+      </ScrollView>
+    </ThemedSafeAreaView>
   );
 }
+
+function About() {
+  return (
+    <ThemedView style={styles.margin}>
+      <ThemedText style={styles.textBig}> About</ThemedText>
+      <ThemedView style={{ marginTop: 10 }}>
+        <Pressable>
+          <ThemedText style={{ margin: 10, fontSize: 18 }}>About</ThemedText>
+        </Pressable>
+        <Pressable>
+          <ThemedText style={{ margin: 10, fontSize: 18 }}>
+            Privacy Policy
+          </ThemedText>
+        </Pressable>
+        <Pressable>
+          <ThemedText style={{ margin: 10, fontSize: 18 }}>
+            Terms of services
+          </ThemedText>
+        </Pressable>
+        <Pressable>
+          <ThemedText style={{ margin: 10, fontSize: 18 }}>License</ThemedText>
+        </Pressable>
+      </ThemedView>
+    </ThemedView>
+  );
+}
+
 function ThemeSelector() {
   return (
     <ThemedView style={styles.margin}>
