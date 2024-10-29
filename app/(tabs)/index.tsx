@@ -19,6 +19,7 @@ export default function Explore() {
   const width = Dimensions.get("window").width;
   const [yOffset, setScrollY] = useState(0);
   const carouselItems = useCarousel();
+  console.log(carouselItems[0].title)
 
   const headerAnimatedStyle = useAnimatedStyle(() => {
     return {
@@ -91,9 +92,11 @@ export default function Explore() {
                         textAlign: "center",
                         fontSize: 30,
                         fontWeight: "600",
+                        
                       },
                     ]}
                   >
+                    
                     {carouselItems[index].title}
                   </Text>
                 </Animated.View>
@@ -104,9 +107,9 @@ export default function Explore() {
       </Animated.View>
       <ThemedView style={{ flex: 1 }}>
         <SplitView
-          onScroll={(yOffset) => {
-            setScrollY(yOffset);
-          }}
+          // onScroll={(yOffset) => {
+          //   setScrollY(yOffset);
+          // }}
           wallpapers={wallpapers}
         />
       </ThemedView>
