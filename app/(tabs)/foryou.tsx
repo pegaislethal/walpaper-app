@@ -1,41 +1,66 @@
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { SafeAreaView } from "react-native-safe-area-context";
-import Library from "../library";
-import Liked from "../liked";
-import Suggested from "../suggested";
-import { StyleSheet, Image, View, useColorScheme } from "react-native";
-import { Colors } from "@/constants/Colors";
+import { SplitView } from '@/components/SplitView';
+import ThemedSafeAreaView  from '@/components/ThemedSafeAreaView';
+import { ThemedView } from '@/components/ThemedView';
+import { Colors } from '@/constants/Colors';
+import { useLibraryWallpapers, useLikedWallpapers, useSuggestedWallpapers, useWallpapers } from '@/hooks/useWallpaper'
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { Text, useColorScheme } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Tab = createMaterialTopTabNavigator();
 
 export default function ForYou() {
-  const theme = useColorScheme() ?? "light";
-  return (
-    <SafeAreaView style={styles.container}>
-      <Tab.Navigator
-        style={{ flex: 1 }}
-        screenOptions={{
-          tabBarActiveTintColor: Colors[theme].tint,
-          tabBarStyle: {
-            backgroundColor: Colors[theme].background,
-          },
+  const theme = useColorScheme() ?? 'light';
 
-          tabBarIndicatorStyle:{
-            backgroundColor:Colors[theme].indicator,
-            height:3
-          }
-        }}
-      >
-        <Tab.Screen name="suggested" component={Suggested} />
-        <Tab.Screen name="liked" component={Liked} />
-        <Tab.Screen name="library" component={Library} />
-      </Tab.Navigator>
-    </SafeAreaView>
+  return (
+    <ThemedSafeAreaView style={styles.container}>
+        <Tab.Navigator style={{
+            flex: 1,
+        }} screenOptions={{
+            tabBarActiveTintColor: Colors[theme].tint,
+            tabBarStyle: {
+                backgroundColor: Colors[theme].background,
+            }, 
+            tabBarIndicatorStyle: {
+                backgroundColor: Colors[theme].indicator,
+                height: 5
+            }
+        }}>
+            <Tab.Screen name="Library" component={LibraryScreen} />
+            <Tab.Screen name="Liked" component={LikedScreen} />
+            <Tab.Screen name="Suggested" component={SuggestedScreen} />
+        </Tab.Navigator>
+    </ThemedSafeAreaView>
   );
 }
 
+function LibraryScreen() {
+    const walletpapers = useLibraryWallpapers();
+
+    return <ThemedView style={styles.container}>
+        <SplitView wallpapers={walletpapers} />
+    </ThemedView>
+}
+
+function LikedScreen() {
+    const walletpapers = useLikedWallpapers();
+
+    return <ThemedView style={styles.container}>
+        <SplitView wallpapers={walletpapers} />
+    </ThemedView>
+}
+
+function SuggestedScreen() {
+    const walletpapers = useSuggestedWallpapers();
+
+    return <ThemedView style={styles.container}>
+        <SplitView wallpapers={walletpapers} />
+    </ThemedView>
+}
+ 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+    container: {
+        flex: 1
+    }
+})

@@ -1,32 +1,30 @@
-import { useWallpapers, Wallpapers } from "@/hooks/useWallpaper";
+import { Wallpaper } from "@/hooks/useWallpaper";
 import { ThemedView } from "./ThemedView";
 import { View, StyleSheet, FlatList } from "react-native";
 import Card from "./Card.Component";
 import { useState } from "react";
+import { DownloadPicture } from "./BottomSheet.Component";
 import React from "react";
-import DownloadPicture from "./BottomSheet.Component";
 
 export function SplitView({
   wallpapers,
   onScroll,
 }: {
-  wallpapers: Wallpapers[];
+  wallpapers: Wallpaper[];
   onScroll?: (yOffset: number) => void;
 }) {
-  const [selectedWallpaper, setSelectedWallpaper] = useState<null | Wallpapers>(null);
-  const [isScrolling, setIsScrolling] = useState(false);
-
+  const [selectedWallpaper, setSelectedWallpaper] = useState<null | Wallpaper>(
+    null
+  );
   return (
     <>
       <FlatList
-        onScrollBeginDrag={() => setIsScrolling(true)}
-        onScrollEndDrag={() => setIsScrolling(false)}
         onScroll={(e) => {
-          let yOffset = e.nativeEvent.contentOffset.y * 2;
+          let yOffset = e.nativeEvent.contentOffset.y / 1;
           onScroll?.(yOffset);
         }}
         data={wallpapers
-          .filter((_, index) => index % 2 === 1)
+          .filter((_, index) => index % 2 === 0)
           .map((_, index) => [wallpapers[index], wallpapers[index + 1]])}
         renderItem={({ item: [first, second] }) => (
           <ThemedView style={styles.container}>
@@ -34,10 +32,9 @@ export function SplitView({
               <View style={styles.imageContainer}>
                 <Card
                   onPress={() => {
-                    if (!isScrolling) setSelectedWallpaper(first);
+                    setSelectedWallpaper(first);
                   }}
                   wallpaper={first}
-                  isScrolling={isScrolling}  // Passing isScrolling to Card
                 />
               </View>
             </ThemedView>
@@ -47,16 +44,15 @@ export function SplitView({
                   <Card
                     wallpaper={second}
                     onPress={() => {
-                      if (!isScrolling) setSelectedWallpaper(second);
+                      setSelectedWallpaper(second);
                     }}
-                    isScrolling={isScrolling}  // Passing isScrolling to Card
                   />
                 </View>
               )}
             </ThemedView>
           </ThemedView>
         )}
-        keyExtractor={(item) => item[0].name as string}
+        keyExtractor={(item) => item[0].name}
       />
       {selectedWallpaper && (
         <DownloadPicture
@@ -67,7 +63,6 @@ export function SplitView({
     </>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",

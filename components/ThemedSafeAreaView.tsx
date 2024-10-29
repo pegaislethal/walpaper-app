@@ -1,5 +1,4 @@
 import { Colors } from "@/constants/Colors";
-import React from "react";
 import { useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 

@@ -1,177 +1,119 @@
-import React, { useCallback, useRef, useState } from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  Image,
-  Pressable,
-  useColorScheme,
-} from "react-native";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import { Wallpapers } from "@/hooks/useWallpaper";
-import { Ionicons } from "@expo/vector-icons";
-import { Colors } from "@/constants/Colors";
-import { ThemedView } from "./ThemedView";
-import * as MediaLibrary from "expo-media-library";
-import * as FileSystem from "expo-file-system";
+import React, { useCallback, useMemo, useRef } from 'react';
+import { View, Image, StyleSheet, Button, useColorScheme, Pressable, Text } from 'react-native';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import { Wallpaper } from '@/hooks/useWallpaper';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { Colors } from '@/constants/Colors';
+import { ThemedText } from './ThemedText';
+import { ThemedView } from './ThemedView';
+import * as MediaLibrary from 'expo-media-library';
+import * as FileSystem from 'expo-file-system';
 
-export default function DownloadPicture({
-  onClose,
-  wallpaper,
-}: {
-  onClose: () => void;
-  wallpaper: Wallpapers;
-}) {
-  const theme = useColorScheme() ?? "light";
-  const bottomSheetRef = useRef<BottomSheet | null>(null);
-  const defaultIconColor =
-    theme === "light" ? Colors.light.icon : Colors.dark.icon;
-  const [isLiked, setIsLiked] = useState(false);
+export const DownloadPicture = ({ onClose, wallpaper}: {
+    onClose: () => void;
+    wallpaper: Wallpaper;
+}) => {
+  // ref
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const theme = useColorScheme() ?? 'light';
 
-  const handleSheetChanges = useCallback(
-    (index: number) => {
-      if (index === -1) {
-        onClose();
-      }
-    },
-    [onClose]
-  );
+  // callbacks
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log('handleSheetChanges', index);
+  }, []);
 
+  // renders
   return (
     <BottomSheet
-      snapPoints={["100%"]}
+      onClose={onClose}
+      snapPoints={["95%"]}
       ref={bottomSheetRef}
-      enablePanDownToClose={true}
-      onClose={()=>{
-        bottomSheetRef.current?.close();
-      }}
       onChange={handleSheetChanges}
-   
-    
+      enablePanDownToClose={true}
       handleIndicatorStyle={{ display: "none" }}
       handleStyle={{ display: "none" }}
-      style={{
-        backgroundColor:
-          theme === "light" ? Colors.light.background : Colors.dark.background,
-      }}
     >
-      <BottomSheetView style={styles.contentContainer} pointerEvents="none">
-        <ThemedView style={{ flex: 1 }}>
-          <Image
-            source={{ uri: wallpaper.url?.toString() ?? "" }}
-            style={styles.image}
-          />
-          <View style={styles.topBar}>
-            <Pressable
-              onPress={onClose}
-              style={{
-                backgroundColor:
-                  theme === "light"
-                    ? Colors.light.background
-                    : Colors.dark.background,
-                borderRadius: 20,
-              }}
-            >
-              <Ionicons
-                name={"close"}
-                size={22}
-                color={theme === "light" ? Colors.light.icon : Colors.dark.icon}
-              />
-            </Pressable>
-
+      <BottomSheetView style={styles.contentContainer}>
+        <ThemedView style={{flex: 1}}>
+          <Image style={styles.image} source={{uri: wallpaper.url}} />
+          <View style={styles.topbar}>
             <Ionicons
-              onPress={() => {
-                setIsLiked(!isLiked);
-              }}
-              name={"heart"}
-              size={22}
-              color={isLiked ? "red" : defaultIconColor}
+                onPress={onClose}
+                name={'close'}
+                size={24}
+                color={theme === 'light' ? Colors.light.icon : Colors.dark.text}
             />
+            <View style={styles.topbarInner}>
+              <Ionicons
+                  name={'heart'}
+                  size={24}
+                  color={theme === 'light' ? Colors.light.icon : Colors.dark.text}
+              />
+              <Ionicons
+                  name={'share'}
+                  size={24}
+                  color={theme === 'light' ? Colors.light.icon : Colors.dark.text}
+                  style={{paddingLeft: 4}}
+              />
+            </View>
           </View>
-
-          <ThemedView
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-              padding: 8,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 18,
-                margin: 5,
-                color: theme === "light" ? Colors.light.text : Colors.dark.text,
-              }}
-            >
-              {wallpaper.name}
-            </Text>
-            <Ionicons
-              style={{ fontSize: 20 }}
-              onPress={() => {}}
-              name={"share"}
-              size={22}
-              color={theme === "light" ? Colors.light.icon : Colors.dark.icon}
-            >
-              Share
-            </Ionicons>
+          <ThemedView style={styles.textContainer}>
+            <ThemedText style={styles.text}>{wallpaper.name}</ThemedText>
           </ThemedView>
-          <Download url={wallpaper.url?.toString() ?? ""} />
+          <DownloadButton url={wallpaper.url} />
         </ThemedView>
       </BottomSheetView>
     </BottomSheet>
   );
-}
+};
 
-function Download({ url }: { url: string }) {
-  const theme = useColorScheme() ?? "light";
-
-  return (
-    <Pressable
-      onPress={async () => {
-        let date = new Date().getTime();
-        let fileUrl = FileSystem.documentDirectory + `${date}.jpg`;
-        try {
-          await FileSystem.downloadAsync(url, fileUrl);
-          const response = await MediaLibrary.requestPermissionsAsync(true);
-
-          if (response.granted) {
-            MediaLibrary.saveToLibraryAsync(fileUrl);
-          } else {
-            console.error("Permission not granted you couldn't save image");
-          }
-        } catch (e) {
-          console.error(e);
+function DownloadButton({ url }: { url: string }) {
+  const theme = useColorScheme() ?? 'light';
+  return <Pressable onPress={async () => {
+    let date = new Date().getTime();
+    let fileUri = FileSystem.documentDirectory + `${date}.jpg`;
+    
+    try {
+        await FileSystem.downloadAsync(url, fileUri)
+        const response = await MediaLibrary.requestPermissionsAsync(true)
+        if (response.granted) {
+          MediaLibrary.createAssetAsync(fileUri)
+          alert("Image saved")
+        } else {
+          console.error("permission not granted")
         }
-      }}
-      style={{
-        backgroundColor: "black",
-        padding: 10,
-        marginHorizontal: 30,
-        paddingVertical: 15,
-        justifyContent: "center",
-        flexDirection: "row",
-        borderRadius: 17,
-      }}
-    >
-      <Ionicons
-        style={{
-          fontSize: 20,
-          flexDirection: "row",
-          color: "white",
-          fontWeight: 600,
-        }}
-        name={"download"}
-        size={22}
-        color={theme === "light" ? Colors.light.icon : Colors.dark.icon}
-      >
-        Download
-      </Ionicons>
-    </Pressable>
-  );
+    } catch (err) {
+        console.log("FS Err: ", err)
+    }
+  }} style={{
+    backgroundColor: "black",
+    padding: 10,
+    marginHorizontal: 40,
+    marginVertical: 20,
+    justifyContent: "center",
+    flexDirection: "row",
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: theme === 'light' ? Colors.light.text : Colors.dark.icon,
+  }}>
+    <Ionicons
+      name={'download'}
+      size={24}
+      color={theme === 'light' ? Colors.light.icon : Colors.dark.icon}
+      style={{paddingRight: 4}}
+    />
+    <Text style={{
+      fontSize: 20,
+      color: "white",
+      fontWeight: "600",
+    }}>Download</Text>
+  </Pressable>
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   contentContainer: {
     flex: 1,
   },
@@ -179,15 +121,25 @@ const styles = StyleSheet.create({
     height: "70%",
     borderRadius: 15,
   },
-  topBar: {
+  topbar: {
     position: "absolute",
-    top: 0,
     padding: 10,
+    display: "flex",
     justifyContent: "space-between",
     flexDirection: "row",
-    width: "100%",
+    width: "100%"
   },
+  topbarInner: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  textContainer: {
+    width: "100%"
+  },
+  text: {
+    paddingTop: 20,
+    textAlign: "center",
+    fontSize: 30,
+    fontWeight: "600"
+  }
 });
-function saveFile(url: any) {
-  throw new Error("Function not implemented.");
-}
