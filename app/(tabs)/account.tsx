@@ -1,4 +1,4 @@
-import  {DownloadPicture} from "@/components/BottomSheet.Component";
+import DownloadPicture from "@/components/BottomSheet.Component";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useState } from "react";
 import { Button, Pressable, Text, View, useColorScheme, StyleSheet, Appearance } from "react-native";

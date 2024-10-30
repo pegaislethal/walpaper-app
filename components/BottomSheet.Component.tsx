@@ -12,6 +12,8 @@ import { Wallpaper } from "@/hooks/useWallpaper";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 import { ThemedView } from "./ThemedView";
+import * as MediaLibrary from 'expo-media-library';
+import * as FileSystem from 'expo-file-system';
 
 export default function DownloadPicture({
   onClose,
@@ -112,45 +114,55 @@ export default function DownloadPicture({
               Share
             </Ionicons>
           </ThemedView>
-          <Download />
+          <DownloadButton  url={wallpaper.url}/>
         </ThemedView>
       </BottomSheetView>
     </BottomSheet>
   );
 }
 
-function Download() {
-  const theme = useColorScheme() ?? "light";
-  return (
-    <Pressable
-      style={{
-        backgroundColor: "black",
-        padding: 10,
-        marginHorizontal: 30,
-        paddingVertical: 15,
-        justifyContent: "center",
-        flexDirection: "row",
-        borderRadius: 17,
-      }}
-    >
-      <Ionicons
-        style={{
-          fontSize: 20,
-          flexDirection: "row",
-          color: "white",
-          fontWeight: 600,
-        }}
-        onPress={() => {}}
-        name={"download"}
-        size={22}
-        color={theme === "light" ? Colors.light.icon : Colors.dark.icon}
-      >
-        Download
-      </Ionicons>
-    </Pressable>
-  );
+function DownloadButton({ url }: { url: string }) {
+  const theme = useColorScheme() ?? 'light';
+  return <Pressable onPress={async () => {
+    let date = new Date().getTime();
+    let fileUri = FileSystem.documentDirectory + `${date}.jpg`;
+    
+    try {
+        await FileSystem.downloadAsync(url, fileUri)
+        const response = await MediaLibrary.requestPermissionsAsync(true)
+        if (response.granted) {
+          MediaLibrary.createAssetAsync(fileUri)
+          alert("Image saved")
+        } else {
+          console.error("permission not granted")
+        }
+    } catch (err) {
+        console.log("FS Err: ", err)
+    }
+  }} style={{
+    backgroundColor: "black",
+    padding: 10,
+    marginHorizontal: 40,
+    marginVertical: 20,
+    justifyContent: "center",
+    flexDirection: "row",
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: theme === 'light' ? Colors.light.text : Colors.dark.icon,
+  }}>
+    <Ionicons
+      name={'download'}
+      size={24}
+      color={theme === 'light' ? Colors.light.icon : Colors.dark.icon}
+      style={{paddingRight: 4}}
+    />
+    <Text style={{
+      fontSize: 20,
+      color: "white",
+      fontWeight: "600",
+    }}>Download</Text>
+  </Pressable>
 }
-
 const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
