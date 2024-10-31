@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "PegaWallpaper",
-    "slug": "pega-wallpaper", 
+    "slug": "pega-wallpaper",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -37,6 +37,7 @@
       "eas": {
         "projectId": "485105c1-9cdf-4d05-a379-4e9ce509ef2d"
       }
-    }
+    },
+    "owner": "pega123"
   }
 }
